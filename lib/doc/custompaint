@@ -1,0 +1,20 @@
+
+
+
+CustomPaint({
+  Key? key,
+  this.painter,
+  this.foregroundPainter,
+  this.size = Size.zero,
+  this.isComplex = false,
+  this.willChange = false,
+  Widget? child,
+}
+
+
+painter: 背景画笔，会显示在子节点后面;
+foregroundPainter: 前景画笔，会显示在子节点前面
+size：当child为null时，代表默认绘制区域大小，如果有child则忽略此参数，画布尺寸则为child尺寸。如果有child但是想指定画布为特定大小，可以使用SizeBox包裹CustomPaint实现。
+isComplex：是否复杂的绘制，如果是，Flutter会应用一些缓存策略来减少重复渲染的开销。
+willChange：和isComplex配合使用，当启用缓存时，该属性代表在下一帧中绘制是否会改变。
+

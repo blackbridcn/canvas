@@ -1,0 +1,34 @@
+
+  var paint = Paint()
+    ..maskFilter = MaskFilter.blur(BlurStyle.normal, 0)
+    ..color = Colors.black
+    ..colorFilter = ColorFilter.linearToSrgbGamma()
+    ..invertColors = true
+    ..shader = ui.Gradient.linear(Offset.zero, Offset(100, 0), [Colors.black, Colors.white])
+    ..strokeMiterLimit = 0
+    ..strokeJoin = StrokeJoin.bevel
+    ..strokeWidth = 10
+    ..isAntiAlias = true
+    ..strokeCap = StrokeCap.round
+    ..style = PaintingStyle.stroke
+    ..blendMode = BlendMode.clear
+    ..filterQuality = FilterQuality.high
+    ..imageFilter = ColorFilter.srgbToLinearGamma();
+
+重要的参数
+    isAntiAlias : 抗锯齿，是否对画布上绘制的线条和图像应用抗锯齿，默认true
+
+    style : 填充效果
+        PaintingStyle.stroke : 将Paint应用到形状的边缘
+        PaintingStyle.fill : 将Paint在形状的内部
+
+    strokeWidth : 线条宽度，当style设置为PaintingStyle.stroke时绘制边缘的宽度，默认 0.0
+
+    strokeCap :端点类型
+        StrokeCap.butt: 平头
+        StrokeCap.round: 圆头
+        StrokeCap.square: 方头
+
+        当style设置为PaintingStyle.stroke时，在绘制的线条末端放置的类型。默认为StrokeCap.but
+            同样的绘制线条，round 和 square 比 butt 多出一些，多出的长度为 strokeWidth 的一半
+

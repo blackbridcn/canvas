@@ -1,0 +1,17 @@
+
+
+通过Paint 填充绘制背景颜色
+void drawPaint(Paint paint)
+
+绘制多个点,也可以绘制成线、线段(PointMode:points单独点, lines线段,polygon 线)
+void drawPoints(PointMode pointMode, List<Offset> points, Paint paint)
+void drawRawPoints(PointMode pointMode, Float32List points, Paint paint)
+
+绘制矩形(直角)
+void drawRect(Rect rect, Paint paint)
+绘制圆矩形(需要设置圆角大小)
+void drawRRect(RRect rrect, Paint paint)
+
+
+
+
