@@ -1,5 +1,11 @@
 
 
+
+
+坐标系
+canvas绘制的所有内容都是以屏幕左上角为原点，右边和下边为正方向延伸的直角坐标系。
+
+
 通过Paint 填充绘制背景颜色
 void drawPaint(Paint paint)
 

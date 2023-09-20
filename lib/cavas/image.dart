@@ -86,8 +86,6 @@ class ImagePainter extends CustomPainter {
     canvas.drawImageNine(image, src, dst, paint);
 
 
-
-
     // 缩小图片尺寸绘制
     dst = Rect.fromLTWH(
         360, 360, image.width.toDouble(), image.height.toDouble());

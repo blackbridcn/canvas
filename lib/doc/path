@@ -1,0 +1,31 @@
+
+
+//移动画笔到指定位置
+void moveTo(double x, double y)
+
+//从当前位置连接一条直线到指定位置
+void lineTo(double x, double y)
+
+//添加一个矩形到 path
+void addRect(Rect rect)
+
+//添加圆角矩形
+void addRRect(RRect rrect)
+
+//添加一个椭圆到 path，如果 Rect 是一个正方形的话，那么添加的会是一个正圆
+void addOval(Rect oval)
+
+//添加一个弧线到 path，是弧度制单位
+void addArc(Rect oval, double startAngle, double sweepAngle)
+
+//添加一些点到 path，这些点将连成一条线段。[close] 是否闭合，如果为true，最后一个点将和第一个点连线
+void addPolygon(List<Offset> points, bool close)
+
+//添加其他 path 到当前的 path
+void addPath(Path path, Offset offset, {Float64List? matrix4})
+
+//重置 Path，将 path 恢复为最初状态，以当前点作为起始点
+void reset()
+
+//闭合图像
+void close()

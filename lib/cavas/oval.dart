@@ -39,6 +39,12 @@ class _OvalState extends State<OvalWidget> {
   }
 }
 
+
+///
+/// 椭圆
+/// rect 长方形时 - 椭圆 ； rect正方形时 - 圆
+/// void drawOval(Rect rect, Paint paint)
+///
 class OvalPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {

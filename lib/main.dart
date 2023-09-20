@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 
+import 'cavas/blur.dart';
 import 'cavas/circle.dart';
+import 'cavas/color.dart';
 import 'cavas/image.dart';
 import 'cavas/oval.dart';
+import 'cavas/paint.dart';
+import 'cavas/path.dart';
 import 'cavas/point.dart';
 import 'cavas/rect.dart';
+import 'cavas/shadow.dart';
+import 'cavas/text.dart';
 import 'utils/global_utils.dart';
 import 'utils/image_utils.dart';
 import 'utils/route_utils.dart';
@@ -47,8 +53,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    super.initState();
     loadImageTask();
+    super.initState();
+
   }
 
   @override
@@ -96,7 +103,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   navPage(RectWidget());
                 }),
             _buildDivider(),
-
             IconTextNextItem(
                 icon: Icons.image_aspect_ratio_outlined,
                 iconColor: Colors.greenAccent,
@@ -105,7 +111,54 @@ class _MyHomePageState extends State<MyHomePage> {
                   navPage(ImageWidget(image));
                 }),
             _buildDivider(),
-
+            IconTextNextItem(
+                icon: Icons.camera_outlined,
+                iconColor: Colors.blue,
+                title: "ColorWidget",
+                callback: () {
+                  navPage(ColorWidget());
+                }),
+            _buildDivider(),
+            IconTextNextItem(
+                icon: Icons.satellite_alt_outlined,
+                iconColor: Colors.green,
+                title: "ShadowWidget",
+                callback: () {
+                  navPage(ShadowWidget());
+                }),
+            _buildDivider(),
+            IconTextNextItem(
+                icon: Icons.swipe,
+                iconColor: Colors.purple,
+                title: "PaintWidget",
+                callback: () {
+                  navPage(PaintWidget(launcher));
+                }),
+            _buildDivider(),
+            IconTextNextItem(
+                icon: Icons.swipe,
+                iconColor: Colors.purple,
+                title: "BlurWidget",
+                callback: () {
+                  navPage(BlurWidget(launcher));
+                }),
+            _buildDivider(),
+            IconTextNextItem(
+                icon: Icons.swipe,
+                iconColor: Colors.purple,
+                title: "PathWidget",
+                callback: () {
+                  navPage(PathWidget());
+                }),
+            _buildDivider(),
+            IconTextNextItem(
+                icon: Icons.text_fields_outlined,
+                iconColor: Colors.teal,
+                title: "TestWidget",
+                callback: () {
+                  navPage(TestWidget());
+                }),
+            _buildDivider(),
 
           ],
         ),
@@ -131,9 +184,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   late ui.Image image;
+  late ui.Image launcher;
+
   Future<void> loadImageTask() async {
     AssetImage images = const AssetImage('images/chair-alpha.png');
     image = await ImageUtils.loadImageByProvider(images);
+
+    AssetImage images1 = const AssetImage('images/ic_launcher.png');
+    launcher = await ImageUtils.loadImageByProvider(images1);
   }
 
 }

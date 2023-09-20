@@ -30,4 +30,5 @@ flutter:
 
   assets:
     - images/chair-alpha.png
+    - images/ic_launcher.png
 
