@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pinned_shortcut/flutter_pinned_shortcut.dart';
 
 import 'cavas/blur.dart';
 import 'cavas/circle.dart';
@@ -14,8 +15,10 @@ import 'cavas/text.dart';
 import 'utils/global_utils.dart';
 import 'utils/image_utils.dart';
 import 'utils/route_utils.dart';
-import 'widget/list_item_widget.dart';
+import 'widget/group/list_item_widget.dart';
 import 'dart:ui' as ui;
+
+import 'widget/single/heart_path.dart';
 
 ///
 /// 重点参照
@@ -38,6 +41,8 @@ class MyApp extends StatelessWidget {
       ),
       navigatorKey: GlobalUtils.navigatorKey,
       home: const MyHomePage(),
+      //home: QuickPage(),
+      //home: PinnedShortcutWidget(),
     );
   }
 }
@@ -50,17 +55,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   void initState() {
     loadImageTask();
     super.initState();
-
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -94,7 +96,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   navPage(OvalWidget());
                 }),
             _buildDivider(),
-
             IconTextNextItem(
                 icon: Icons.account_balance_outlined,
                 iconColor: Colors.blue,
@@ -160,17 +161,42 @@ class _MyHomePageState extends State<MyHomePage> {
                 }),
             _buildDivider(),
 
+            IconTextNextItem(
+                icon: Icons.text_fields_outlined,
+                iconColor: Colors.teal,
+                title: "HeartPathWidget",
+                callback: () {
+                  navPage(HeartPathWidget());
+                }),
+            _buildDivider(),
+
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: () {
+          _buildBottomSheet();
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
+  void _buildBottomSheet(){
+    showModalBottomSheet(
+      context: context,
+      builder: (context){
+        return Container(
+          width: double.infinity,
+          height: 300,
+          color: Colors.red,
+          alignment: Alignment.centerLeft,
+          child: Text("showModalBottomSheet", style: TextStyle(color: Colors.white),),
+        );
+      },
+    );
+  }
 
   Widget _buildDivider() {
     return const Divider(
@@ -194,4 +220,64 @@ class _MyHomePageState extends State<MyHomePage> {
     launcher = await ImageUtils.loadImageByProvider(images1);
   }
 
+}
+
+
+
+class PinnedShortcutWidget extends StatefulWidget {
+  const PinnedShortcutWidget({super.key});
+
+  @override
+  State<PinnedShortcutWidget> createState() => _PinnedShortcutState();
+}
+
+class _PinnedShortcutState extends State<PinnedShortcutWidget> {
+  final _flutterPinnedShortcutPlugin = FlutterPinnedShortcut();
+
+  @override
+  void initState() {
+    super.initState();
+    getIncomingAction();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Plugin example app'),
+        ),
+        body: Center(
+          child: ElevatedButton(
+            onPressed: addPinnedShortcut,
+            child: const Text("Add Pinned Shortcut"),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void addPinnedShortcut() {
+    _flutterPinnedShortcutPlugin.createPinnedShortcut(
+        id: "1",
+        label: "Followers",
+        action: "followers",
+        iconAssetName: "images/ic_launcher.png"
+    );
+  }
+
+  void getIncomingAction() {
+    _flutterPinnedShortcutPlugin.getLaunchAction((action) {
+      print(action);
+      switch (action) {
+        case "followers":
+          NavigatorUtils.push(TestWidget());
+        ///navigate to follower screen.
+          break;
+        case "profile":
+          NavigatorUtils.push(TestWidget());
+        ///navigate to profile screen.
+      }
+    });
+  }
 }

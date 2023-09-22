@@ -104,7 +104,7 @@ class PathOvalPainter extends CustomPainter {
    ///圆角矩形
     path.addRRect(RRect.fromRectAndRadius(rrect,Radius.circular(10)));
 
-    
+
 
     canvas.drawPath(
         path,
