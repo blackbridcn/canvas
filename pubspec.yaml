@@ -13,16 +13,22 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   cupertino_icons: ^1.0.2
 
-  flutter_pinned_shortcut: ^0.0.4
+  #多语言
+  intl: ^0.18.0
+
+  #多语言
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+  #多语言代码生成工具插件
+  intl_generator: ^0.3.0
 
 flutter:
 
@@ -34,3 +40,6 @@ flutter:
     - images/chair-alpha.png
     - images/ic_launcher.png
 
+#多语言代码生成工具插件
+flutter_intl:
+  enabled: true

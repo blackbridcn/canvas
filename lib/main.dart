@@ -1,5 +1,7 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_pinned_shortcut/flutter_pinned_shortcut.dart';
 
 import 'cavas/blur.dart';
 import 'cavas/circle.dart';
@@ -41,8 +43,6 @@ class MyApp extends StatelessWidget {
       ),
       navigatorKey: GlobalUtils.navigatorKey,
       home: const MyHomePage(),
-      //home: QuickPage(),
-      //home: PinnedShortcutWidget(),
     );
   }
 }
@@ -59,7 +59,35 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     loadImageTask();
     super.initState();
+
+    initHttpServerTask(8081);
   }
+
+  Future<void> initHttpServerTask(int port) async {
+    HttpServer server =
+        await HttpServer.bind(InternetAddress.anyIPv4, port, shared: true);
+    StreamSubscription<HttpRequest> subscription = server.listen((request) {
+      print("----------------> method :${request.method}, path :${request.uri.path}");
+      switch (request.method) {
+        case 'GET':
+          handleGetRequest(request);
+          break;
+        case 'POST':
+
+          break;
+      }
+    }, onError: () {}, onDone: () {}, cancelOnError: false);
+    subscription.cancel()
+    ;
+  }
+
+  void handleGetRequest(HttpRequest req) {
+    HttpResponse res = req.response;
+    res.write('Received request ${req.method}: ${req.uri.path}');
+    res.close();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text('Canvas'),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -160,7 +188,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   navPage(TestWidget());
                 }),
             _buildDivider(),
-
             IconTextNextItem(
                 icon: Icons.text_fields_outlined,
                 iconColor: Colors.teal,
@@ -169,7 +196,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   navPage(HeartPathWidget());
                 }),
             _buildDivider(),
-
+            TextTitleSuffixItem(
+              // icon: Icons.text_fields_outlined,
+              //iconColor: Colors.teal,
+              title: "HeartPathWidget",
+              subTitle: "HeartPathWidget",
+              callback: () {
+                navPage(HeartPathWidget());
+              },
+              prefix: Icon(Icons.text_fields_outlined),
+              suffix: Icon(Icons.text_fields_outlined),
+            ),
           ],
         ),
       ),
@@ -183,16 +220,19 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _buildBottomSheet(){
+  void _buildBottomSheet() {
     showModalBottomSheet(
       context: context,
-      builder: (context){
+      builder: (context) {
         return Container(
           width: double.infinity,
           height: 300,
           color: Colors.red,
           alignment: Alignment.centerLeft,
-          child: Text("showModalBottomSheet", style: TextStyle(color: Colors.white),),
+          child: Text(
+            "showModalBottomSheet",
+            style: TextStyle(color: Colors.white),
+          ),
         );
       },
     );
@@ -218,66 +258,5 @@ class _MyHomePageState extends State<MyHomePage> {
 
     AssetImage images1 = const AssetImage('images/ic_launcher.png');
     launcher = await ImageUtils.loadImageByProvider(images1);
-  }
-
-}
-
-
-
-class PinnedShortcutWidget extends StatefulWidget {
-  const PinnedShortcutWidget({super.key});
-
-  @override
-  State<PinnedShortcutWidget> createState() => _PinnedShortcutState();
-}
-
-class _PinnedShortcutState extends State<PinnedShortcutWidget> {
-  final _flutterPinnedShortcutPlugin = FlutterPinnedShortcut();
-
-  @override
-  void initState() {
-    super.initState();
-    getIncomingAction();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: ElevatedButton(
-            onPressed: addPinnedShortcut,
-            child: const Text("Add Pinned Shortcut"),
-          ),
-        ),
-      ),
-    );
-  }
-
-  void addPinnedShortcut() {
-    _flutterPinnedShortcutPlugin.createPinnedShortcut(
-        id: "1",
-        label: "Followers",
-        action: "followers",
-        iconAssetName: "images/ic_launcher.png"
-    );
-  }
-
-  void getIncomingAction() {
-    _flutterPinnedShortcutPlugin.getLaunchAction((action) {
-      print(action);
-      switch (action) {
-        case "followers":
-          NavigatorUtils.push(TestWidget());
-        ///navigate to follower screen.
-          break;
-        case "profile":
-          NavigatorUtils.push(TestWidget());
-        ///navigate to profile screen.
-      }
-    });
   }
 }

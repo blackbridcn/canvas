@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 typedef ItemTapCallback = void Function();
 
 class TextNext extends StatelessWidget {
+
   double paddingLeft = 16.0;
   double paddingRight = 16.0;
 
@@ -126,14 +127,73 @@ class IconTextNextItem extends PrefixTextSuffixItem {
       EdgeInsetsGeometry? margin,
       ItemTapCallback? callback})
       : super(
-            prefix: Icon(
-              icon,
-              color: iconColor,
-              size: iconSize,
-            ),
+            prefix: Icon(icon, color: iconColor, size: iconSize,),
             title: title,
             suffix: Icon(Icons.keyboard_arrow_right, color: Colors.grey[400]),
             padding: padding,
             margin: margin,
             callback: callback);
+}
+
+class TextTitleSuffixItem extends StatelessWidget {
+  double paddingLeft = 16.0;
+  double paddingRight = 16.0;
+
+  Widget prefix;
+  String title;
+  String subTitle;
+  ItemTapCallback? callback;
+  EdgeInsetsGeometry? padding;
+  EdgeInsetsGeometry? margin;
+  Widget suffix;
+
+  TextTitleSuffixItem({
+    super.key,
+    required this.prefix,
+    required this.title,
+    required this.subTitle,
+    required this.suffix,
+    this.callback,
+    this.padding,
+    this.margin,
+
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    padding ??= const EdgeInsets.symmetric(horizontal: 16.0);
+    return GestureDetector(
+      onTap: () {
+        callback?.call();
+      },
+      child: Container(
+        color: Colors.white,
+        height: 55,
+        padding: padding,
+        margin: margin,
+        child: Row(
+          children: [
+            prefix,
+            const SizedBox(
+              width: 10,
+            ),
+            Column(children: [
+              Expanded(
+                  child: Text(
+                    title,
+                    style: const TextStyle(fontSize: 16.0),
+                  )),
+              Expanded(
+                  child: Text(
+                    subTitle,
+                    style: const TextStyle(fontSize: 14.0),
+                  )),
+            ],),
+            suffix,
+            //
+          ],
+        ),
+      ),
+    );
+  }
 }
