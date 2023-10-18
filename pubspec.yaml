@@ -22,6 +22,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+  flutter_apm: ^6.3.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
